@@ -1,0 +1,14 @@
+######################
+# Godot 3 Generated Folders and Files #
+######################
+game/.import
+game/.mono
+game/logs/
+*.suo
+*.import
+
+######################
+# .Net Core Test Solution Generated Folders and Files #
+######################
+game/Tests/bin
+game/Tests/obj
