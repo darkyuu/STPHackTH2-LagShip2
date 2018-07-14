@@ -40,6 +40,7 @@ public class GameplayScene : Node
 		
 		this.globals = (Autoload)GetNode("/root/Autoload");
 
+		this.globals.Randomize();
         ship.SetStartPosition(temp.Position, Int32.Parse(temp.Name));
 		velocity = commandVelocity[weatherFactor];
 		
