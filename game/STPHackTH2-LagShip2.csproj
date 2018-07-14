@@ -49,9 +49,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Character\PlayerShip\ShipObject.cs" />
+    <Compile Include="Command\CommandExecutionPointObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Autoload.cs" />
     <Compile Include="Scenes\BlankScene.cs" />
+    <Compile Include="Scenes\GameplayScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

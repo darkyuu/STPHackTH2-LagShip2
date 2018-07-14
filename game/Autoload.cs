@@ -3,7 +3,7 @@ using System;
 
 public class Autoload : Node
 {
-	public int score = 123;
-
+	public int score = 0;
+	public int currentCommandBuffer = 0;
 
 }

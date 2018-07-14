@@ -1,0 +1,81 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/GameplayScene.cs" type="Script" id=1]
+[ext_resource path="res://Command/RightCommandObject.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Command/LeftCommandObject.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Character/PlayerShip/ShipObject.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=5]
+
+[node name="Gameplay" type="Node" index="0"]
+
+script = ExtResource( 1 )
+rightCommands = ExtResource( 2 )
+leftCommands = ExtResource( 3 )
+maxCommandBuffer = 7
+maxCommandFrameCounter = 10
+
+[node name="PlayerShipPoints" type="Node" parent="." index="0"]
+
+[node name="1" type="Position2D" parent="PlayerShipPoints" index="0"]
+
+position = Vector2( 112, 64 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="2" type="Position2D" parent="PlayerShipPoints" index="1"]
+
+position = Vector2( 320, 64 )
+
+[node name="3" type="Position2D" parent="PlayerShipPoints" index="2"]
+
+position = Vector2( 528, 64 )
+
+[node name="PlayerShip" parent="." index="1" instance=ExtResource( 4 )]
+
+[node name="CommandPanel" type="Node" parent="." index="2"]
+
+[node name="Background" type="ColorRect" parent="CommandPanel" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 368.0
+margin_right = 640.0
+margin_bottom = 480.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 1, 1, 1 )
+
+[node name="GameState" type="ColorRect" parent="CommandPanel" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 528.0
+margin_top = 368.0
+margin_right = 640.0
+margin_bottom = 480.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 1, 0.539062, 0, 1 )
+
+[node name="CommandStartPoint" type="Position2D" parent="CommandPanel" index="2"]
+
+position = Vector2( 48, 432 )
+scale = Vector2( 1, -1.75 )
+
+[node name="CommandExecutePoint" parent="CommandPanel" index="3" instance=ExtResource( 5 )]
+
+position = Vector2( 497, 432 )
+_sections_unfolded = [ "Collision", "Transform" ]
+
+
