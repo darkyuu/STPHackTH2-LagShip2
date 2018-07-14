@@ -1,20 +1,25 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/GameplayScene.cs" type="Script" id=1]
 [ext_resource path="res://Command/RightCommandObject.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Command/LeftCommandObject.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Character/PlayerShip/ShipObject.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Character/Reef/ReefObject.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Character/PlayerShip/ShipObject.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=6]
 
 [node name="Gameplay" type="Node" index="0"]
 
 script = ExtResource( 1 )
 rightCommands = ExtResource( 2 )
 leftCommands = ExtResource( 3 )
+reefs = ExtResource( 4 )
 maxCommandBuffer = 7
 maxCommandFrameCounter = 10
+distanceFromPlayerShipPoint = 290
 
 [node name="PlayerShipPoints" type="Node" parent="." index="0"]
+
+editor/display_folded = true
 
 [node name="1" type="Position2D" parent="PlayerShipPoints" index="0"]
 
@@ -29,9 +34,18 @@ position = Vector2( 320, 64 )
 
 position = Vector2( 528, 64 )
 
-[node name="PlayerShip" parent="." index="1" instance=ExtResource( 4 )]
+[node name="PlayerShip" parent="." index="1" instance=ExtResource( 5 )]
 
-[node name="CommandPanel" type="Node" parent="." index="2"]
+[node name="ReefPool" type="Node" parent="." index="2"]
+
+[node name="ReefSpawnTimer" type="Timer" parent="." index="3"]
+
+process_mode = 1
+wait_time = 4.0
+one_shot = false
+autostart = false
+
+[node name="CommandPanel" type="Node" parent="." index="4"]
 
 [node name="Background" type="ColorRect" parent="CommandPanel" index="0"]
 
@@ -74,9 +88,11 @@ position = Vector2( 48, 432 )
 scale = Vector2( 1, -1.75 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CommandExecutionPoint" parent="CommandPanel" index="3" instance=ExtResource( 5 )]
+[node name="CommandExecutionPoint" parent="CommandPanel" index="3" instance=ExtResource( 6 )]
 
 position = Vector2( 495, 432 )
 _sections_unfolded = [ "Collision", "Transform" ]
+
+[connection signal="timeout" from="ReefSpawnTimer" to="." method="OnReefSpawnTimerTimeout"]
 
 

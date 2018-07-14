@@ -50,7 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character\PlayerShip\ShipObject.cs" />
+    <Compile Include="Character\Reef\ReefObject.cs" />
     <Compile Include="Command\CommandExecutionPointObject.cs" />
+    <Compile Include="Command\LeftCommandObject.cs" />
+    <Compile Include="Command\RightCommandObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Autoload.cs" />
     <Compile Include="Scenes\GameplayScene.cs" />
