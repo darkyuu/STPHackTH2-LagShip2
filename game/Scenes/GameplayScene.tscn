@@ -1,11 +1,20 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/GameplayScene.cs" type="Script" id=1]
 [ext_resource path="res://Command/RightCommandObject.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Command/LeftCommandObject.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Character/Reef/ReefObject.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Character/PlayerShip/ShipObject.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Fonts/Kenney Blocks.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 20
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 6 )
+_sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [node name="Gameplay" type="Node" index="0"]
 
@@ -16,6 +25,7 @@ reefs = ExtResource( 4 )
 maxCommandBuffer = 7
 maxCommandFrameCounter = 10
 distanceFromPlayerShipPoint = 290
+distanceFromGoal = 1852
 
 [node name="PlayerShipPoints" type="Node" parent="." index="0"]
 
@@ -82,13 +92,39 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 color = Color( 1, 0.539062, 0, 1 )
 
-[node name="CommandStartPoint" type="Position2D" parent="CommandPanel" index="2"]
+[node name="RemainingNMileLabel" type="Label" parent="CommandPanel" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 544.0
+margin_top = 432.0
+margin_right = 628.0
+margin_bottom = 468.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "0.000"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts" ]
+
+[node name="CommandStartPoint" type="Position2D" parent="CommandPanel" index="3"]
 
 position = Vector2( 48, 432 )
 scale = Vector2( 1, -1.75 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CommandExecutionPoint" parent="CommandPanel" index="3" instance=ExtResource( 6 )]
+[node name="CommandExecutionPoint" parent="CommandPanel" index="4" instance=ExtResource( 7 )]
 
 position = Vector2( 495, 432 )
 _sections_unfolded = [ "Collision", "Transform" ]

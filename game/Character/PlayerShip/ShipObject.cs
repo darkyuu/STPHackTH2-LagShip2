@@ -18,7 +18,7 @@ public class ShipObject : Area2D
 
     public override void _Process(float delta)
     {
-        
+			
     }
 
     public void SetStartPosition(Vector2 pos, int laneIndexVal)

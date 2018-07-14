@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public class GameplayScene : Node
-{
+{	
 	[Export]
     public PackedScene rightCommands;
     [Export]
@@ -15,24 +15,38 @@ public class GameplayScene : Node
     public int maxCommandFrameCounter = 10;
 	[Export]
 	public int distanceFromPlayerShipPoint = 290;
+	[Export]
+	public int distanceFromGoal = 1852;
 
 	private ShipObject ship;
 	private Position2D commandStartPoint;
 	private CommandExecutionPointObject commandExecutionPoint;
 	private Timer reefSpawnTimer;
 	private Node reefPool;
+	private Label remainingNMileLabel;
 	
 	private int currentCommandFrameCounter;
 	private float velocity;
 	private int weatherFactor = 5; // value 0 to 9
 	private double aimToPosition = 3*Math.PI/2;
+
 	private float[] commandVelocity = new float[] {
 		1600, 1600, 1400, 1400, 1000, 1000, 800, 800, 800, 800
 	};
+	
 	private float commandMinimumVelocity = 300;
 
 	private float[] commandLatencyFactor = new float[] {
 		0.5f, 1.0f, 1.5f, 2.0f, 2.5f, 3.0f, 3.5f, 4.0f, 4.5f, 5.0f
+	};
+	
+	private int difficult = 0;
+	private int[] remainingNMileLevels = new int[] {
+		1500*60, 1000*60, 750*60, 500*60
+	};
+	
+	private float[] reefSpawnWaitTimeLevels = new float[] {
+		3.5f, 3.3f, 3, 2.5f, 2
 	};
 	
 	Autoload globals;
@@ -45,6 +59,7 @@ public class GameplayScene : Node
 		commandExecutionPoint = GetNode("CommandPanel/CommandExecutionPoint") as CommandExecutionPointObject;
 		reefSpawnTimer = GetNode("ReefSpawnTimer") as Timer;
 		reefPool = GetNode("ReefPool") as Node;
+		remainingNMileLabel = GetNode("CommandPanel/RemainingNMileLabel") as Label;
 		
 		this.globals = (Autoload)GetNode("/root/Autoload");
 
@@ -52,6 +67,9 @@ public class GameplayScene : Node
         ship.SetStartPosition(temp.Position, Int32.Parse(temp.Name));
 		velocity = commandVelocity[weatherFactor];
 		reefSpawnTimer.Start();
+		distanceFromGoal *= 60; //multiply with 60 because frame-per-sec principle
+		this.globals.missionComplete = false;
+		difficult = 0;
 		
 		commandExecutionPoint.Connect("CallRight",this, "ForceShipTurnRight");
         commandExecutionPoint.Connect("CallLeft",this, "ForceShipTurnLeft");
@@ -59,11 +77,37 @@ public class GameplayScene : Node
 
     public override void _Process(float delta)
     {
-        if(currentCommandFrameCounter == maxCommandFrameCounter)
+        if(currentCommandFrameCounter == maxCommandFrameCounter &&
+			!this.globals.missionComplete)
+		{
             InputFromPlayer();
+		}
         else
             currentCommandFrameCounter += 1;
+		
+		if(!this.globals.missionComplete)
+			ProcessDistanceFromGoal();
     }
+	
+	private void ProcessDistanceFromGoal()
+	{
+		distanceFromGoal--;
+		if(distanceFromGoal == 0)
+		{
+			GD.Print("Game Clear");
+			this.globals.missionComplete = true;
+		}
+		else
+		{
+			if(difficult < remainingNMileLevels.Length)
+				if(distanceFromGoal == remainingNMileLevels[difficult])
+				{
+					difficult++;
+					reefSpawnTimer.WaitTime = reefSpawnWaitTimeLevels[difficult];
+				}
+		}
+		remainingNMileLabel.Text = string.Format("{0:0.00}", distanceFromGoal/1000.0);
+	}
 	
 	private void InputFromPlayer()
     {
