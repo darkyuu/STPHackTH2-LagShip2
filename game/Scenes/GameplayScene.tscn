@@ -72,10 +72,11 @@ color = Color( 1, 0.539062, 0, 1 )
 
 position = Vector2( 48, 432 )
 scale = Vector2( 1, -1.75 )
+_sections_unfolded = [ "Transform" ]
 
-[node name="CommandExecutePoint" parent="CommandPanel" index="3" instance=ExtResource( 5 )]
+[node name="CommandExecutionPoint" parent="CommandPanel" index="3" instance=ExtResource( 5 )]
 
-position = Vector2( 497, 432 )
+position = Vector2( 495, 432 )
 _sections_unfolded = [ "Collision", "Transform" ]
 
 

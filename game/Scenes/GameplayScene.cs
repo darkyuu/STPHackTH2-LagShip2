@@ -14,6 +14,8 @@ public class GameplayScene : Node
 
 	private ShipObject ship;
 	private Position2D commandStartPoint;
+	private CommandExecutionPointObject commandExecutionPoint;
+	        
 	
 	private int currentCommandFrameCounter;
 	private float velocity;
@@ -34,11 +36,15 @@ public class GameplayScene : Node
         ship = GetNode("PlayerShip") as ShipObject;
         Position2D temp = GetNode("PlayerShipPoints/2") as Position2D;
 		commandStartPoint = GetNode("CommandPanel/CommandStartPoint") as Position2D;
+		commandExecutionPoint = GetNode("CommandPanel/CommandExecutionPoint") as CommandExecutionPointObject;
 		
 		this.globals = (Autoload)GetNode("/root/Autoload");
 
         ship.SetStartPosition(temp.Position, Int32.Parse(temp.Name));
 		velocity = commandVelocity[weatherFactor];
+		
+		commandExecutionPoint.Connect("CallRight",this, "ForceShipTurnRight");
+        commandExecutionPoint.Connect("CallLeft",this, "ForceShipTurnLeft");
     }
 
     public override void _Process(float delta)
@@ -82,6 +88,38 @@ public class GameplayScene : Node
 
             this.globals.currentCommandBuffer += 1;
             currentCommandFrameCounter = 0;
+        }
+    }
+	
+	private void ForceShipTurnLeft()
+    {
+		switch(ship.GetCurrentLaneIndex())
+        {
+            case 1: /*show bad command signal*/ break;
+            case 2:
+            case 3: 
+            {
+				int targetIndex = ship.GetCurrentLaneIndex()-1;
+				Position2D temp = GetNode("PlayerShipPoints/"+targetIndex.ToString()) as Position2D;
+				ship.Move(temp.Position, targetIndex);
+                break;
+            }
+        }
+    }
+
+    private void ForceShipTurnRight()
+    {
+		switch(ship.GetCurrentLaneIndex())
+        {
+            case 1:
+            case 2:
+            {
+                int targetIndex = ship.GetCurrentLaneIndex()+1;
+                Position2D temp = GetNode("PlayerShipPoints/"+targetIndex.ToString()) as Position2D;
+				ship.Move(temp.Position, targetIndex);
+                break;
+            }
+            case 3: /*show bad command signal*/ break;
         }
     }
 
