@@ -24,6 +24,8 @@ public class GameplayScene : Node
 	private Timer reefSpawnTimer;
 	private Node reefPool;
 	private Label remainingNMileLabel;
+	private Label messageLabel;
+	private Godot.Timer messageTimer;
 	
 	private int currentCommandFrameCounter;
 	private float velocity;
@@ -60,6 +62,8 @@ public class GameplayScene : Node
 		reefSpawnTimer = GetNode("ReefSpawnTimer") as Timer;
 		reefPool = GetNode("ReefPool") as Node;
 		remainingNMileLabel = GetNode("CommandPanel/RemainingNMileLabel") as Label;
+		messageLabel = GetNode("MessageLabel") as Label;
+		messageTimer = GetNode("MessageTimer") as Godot.Timer;
 		
 		this.globals = (Autoload)GetNode("/root/Autoload");
 
@@ -70,6 +74,8 @@ public class GameplayScene : Node
 		distanceFromGoal *= 60; //multiply with 60 because frame-per-sec principle
 		this.globals.missionComplete = false;
 		difficult = 0;
+		messageLabel.Hide();
+		messageTimer.Stop();
 		
 		commandExecutionPoint.Connect("CallRight",this, "ForceShipTurnRight");
         commandExecutionPoint.Connect("CallLeft",this, "ForceShipTurnLeft");
@@ -94,8 +100,8 @@ public class GameplayScene : Node
 		distanceFromGoal--;
 		if(distanceFromGoal == 0)
 		{
-			GD.Print("Game Clear");
 			this.globals.missionComplete = true;
+			DoMissionComplete();
 		}
 		else
 		{
@@ -195,6 +201,31 @@ public class GameplayScene : Node
         obj.Rotation = 0;
         obj.SetLinearVelocity(new Vector2(70, 0).Rotated((float)aimToPosition));
 	}
+	
+	private void ShowMessage(string textString)
+    {
+        messageLabel.Text = textString;
+        messageLabel.Show();
+        messageTimer.Start();
+    }
+	
+	public void DoMissionComplete()
+    {
+        ShowMessage("Mission\nComplete");
+		GoBackToMainMenuAfterMessageIsGone();
+    }
+	
+	public void DoGameOver()
+    {
+        ShowMessage("Game Over");
+		GoBackToMainMenuAfterMessageIsGone();
+    }
+	
+	private async void GoBackToMainMenuAfterMessageIsGone()
+    {
+        await ToSignal(messageTimer, "timeout");
+		GetTree().ChangeScene("res://Scenes/IntroScene.tscn");
+    }
 
 }
 
