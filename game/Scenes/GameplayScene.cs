@@ -30,6 +30,7 @@ public class GameplayScene : Node
 	private Label weaterStatusLabel;
 	private AudioStreamPlayer gameOverSound;
 	private AudioStreamPlayer missionCompleteSound;
+	private AudioStreamPlayer bgm;
 	
 	private int currentCommandFrameCounter;
 	private float velocity;
@@ -72,6 +73,7 @@ public class GameplayScene : Node
 		weaterStatusLabel = GetNode("CommandPanel/WeaterStatusLabel") as Label;
 		gameOverSound = GetNode("GameOverSound") as AudioStreamPlayer;
 		missionCompleteSound = GetNode("MissionCompleteSound") as AudioStreamPlayer;
+		bgm = GetNode("BGM") as AudioStreamPlayer;
 		
 		this.globals = (Autoload)GetNode("/root/Autoload");
 
@@ -88,6 +90,8 @@ public class GameplayScene : Node
 		SetWeatherStatusLabel();
 		gameOverSound.Stop();
 		missionCompleteSound.Stop();
+		bgm.Stop();
+		bgm.Play();
 		
 		commandExecutionPoint.Connect("CallRight",this, "ForceShipTurnRight");
         commandExecutionPoint.Connect("CallLeft",this, "ForceShipTurnLeft");
@@ -250,6 +254,7 @@ public class GameplayScene : Node
 	public void DoMissionComplete()
     {
 		this.globals.missionComplete = true;
+		bgm.Stop();
 		missionCompleteSound.Play();
         ShowMessage("Mission\nComplete");
 		GoBackToMainMenuAfterMessageIsGone();
@@ -258,6 +263,7 @@ public class GameplayScene : Node
 	public void DoGameOver()
     {
 		this.globals.missionComplete = true;
+		bgm.Stop();
 		gameOverSound.Play();
         ShowMessage("Game Over");
 		GoBackToMainMenuAfterMessageIsGone();

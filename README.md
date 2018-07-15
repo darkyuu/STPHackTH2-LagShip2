@@ -7,4 +7,5 @@ team members
 * Durongrit Hirunked (Programmer, Mechanics Designer)
 
 Special Thank
-* kenney.nl (Visual and Audio assets)
+* kenney.nl (Visual and Audio Effect assets)
+* Dan Alan (BGM) (source: https://opengameart.org/content/pacific-ocean)
