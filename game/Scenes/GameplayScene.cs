@@ -28,6 +28,7 @@ public class GameplayScene : Node
 	private Godot.Timer messageTimer;
 	private Sprite weatherStatus;
 	private Label weaterStatusLabel;
+	private AudioStreamPlayer gameOverSound;
 	
 	private int currentCommandFrameCounter;
 	private float velocity;
@@ -68,6 +69,7 @@ public class GameplayScene : Node
 		messageLabel = GetNode("MessageLabel") as Label;
 		messageTimer = GetNode("MessageTimer") as Godot.Timer;
 		weaterStatusLabel = GetNode("CommandPanel/WeaterStatusLabel") as Label;
+		gameOverSound = GetNode("GameOverSound") as AudioStreamPlayer;
 		
 		this.globals = (Autoload)GetNode("/root/Autoload");
 
@@ -82,6 +84,7 @@ public class GameplayScene : Node
 		messageLabel.Hide();
 		messageTimer.Stop();
 		SetWeatherStatusLabel();
+		gameOverSound.Stop();
 		
 		commandExecutionPoint.Connect("CallRight",this, "ForceShipTurnRight");
         commandExecutionPoint.Connect("CallLeft",this, "ForceShipTurnLeft");
@@ -251,6 +254,7 @@ public class GameplayScene : Node
 	public void DoGameOver()
     {
 		this.globals.missionComplete = true;
+		gameOverSound.Play();
         ShowMessage("Game Over");
 		GoBackToMainMenuAfterMessageIsGone();
     }
