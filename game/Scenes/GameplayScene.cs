@@ -36,7 +36,7 @@ public class GameplayScene : Node
 	private double aimToPosition = 3*Math.PI/2;
 
 	private float[] commandVelocity = new float[] {
-		1600, 1600, 1400, 1400, 1000, 1000, 800, 800, 800, 800
+		1300, 1200, 1100, 1000, 900, 800, 700, 650, 600, 800
 	};	
 	private float commandMinimumVelocity = 300;
 	private float[] commandLatencyFactor = new float[] {
@@ -183,34 +183,36 @@ public class GameplayScene : Node
 	
 	private void ForceShipTurnLeft()
     {
-		switch(ship.GetCurrentLaneIndex())
-        {
-            case 1: /*show bad command signal*/ break;
-            case 2:
-            case 3: 
-            {
-				int targetIndex = ship.GetCurrentLaneIndex()-1;
-				Position2D temp = GetNode("PlayerShipPoints/"+targetIndex.ToString()) as Position2D;
-				ship.Move(temp.Position, targetIndex);
-                break;
-            }
-        }
+		if(!this.globals.missionComplete)
+			switch(ship.GetCurrentLaneIndex())
+	        {
+	            case 1: /*show bad command signal*/ break;
+	            case 2:
+	            case 3: 
+	            {
+					int targetIndex = ship.GetCurrentLaneIndex()-1;
+					Position2D temp = GetNode("PlayerShipPoints/"+targetIndex.ToString()) as Position2D;
+					ship.Move(temp.Position, targetIndex);
+	                break;
+	            }
+	        }
     }
 
     private void ForceShipTurnRight()
     {
-		switch(ship.GetCurrentLaneIndex())
-        {
-            case 1:
-            case 2:
-            {
-                int targetIndex = ship.GetCurrentLaneIndex()+1;
-                Position2D temp = GetNode("PlayerShipPoints/"+targetIndex.ToString()) as Position2D;
-				ship.Move(temp.Position, targetIndex);
-                break;
-            }
-            case 3: /*show bad command signal*/ break;
-        }
+		if(!this.globals.missionComplete)
+			switch(ship.GetCurrentLaneIndex())
+	        {
+	            case 1:
+	            case 2:
+	            {
+	                int targetIndex = ship.GetCurrentLaneIndex()+1;
+	                Position2D temp = GetNode("PlayerShipPoints/"+targetIndex.ToString()) as Position2D;
+					ship.Move(temp.Position, targetIndex);
+	                break;
+	            }
+	            case 3: /*show bad command signal*/ break;
+	        }
     }
 	
 	private void OnReefSpawnTimerTimeout()
