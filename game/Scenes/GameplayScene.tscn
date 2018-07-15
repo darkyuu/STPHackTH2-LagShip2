@@ -24,7 +24,7 @@ use_filter = false
 font_data = ExtResource( 6 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="Gameplay" type="Node" index="0"]
+[node name="Gameplay" type="Node"]
 
 script = ExtResource( 1 )
 rightCommands = ExtResource( 2 )

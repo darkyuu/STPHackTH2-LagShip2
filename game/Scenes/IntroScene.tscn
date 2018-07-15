@@ -1,8 +1,12 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/IntroScene.cs" type="Script" id=1]
 
 [node name="Node2D" type="Node2D" index="0"]
 
-[node name="NextSceneButton" type="Button" parent="." index="0"]
+script = ExtResource( 1 )
+
+[node name="StartGameButton" type="Button" parent="." index="0"]
 
 anchor_left = 0.5
 anchor_top = 0.5
@@ -27,5 +31,7 @@ text = "open game"
 flat = false
 align = 1
 _sections_unfolded = [ "Rect" ]
+
+[connection signal="pressed" from="StartGameButton" to="." method="OnStartGameButtonPressed"]
 
 
