@@ -26,18 +26,19 @@ public class GameplayScene : Node
 	private Label remainingNMileLabel;
 	private Label messageLabel;
 	private Godot.Timer messageTimer;
+	private Sprite weatherStatus;
+	private Label weaterStatusLabel;
 	
 	private int currentCommandFrameCounter;
 	private float velocity;
-	private int weatherFactor = 5; // value 0 to 9
+	private int weatherFactor = 0; // value 0 to 9
+	private int weatherRandomGap = 1200*5;
 	private double aimToPosition = 3*Math.PI/2;
 
 	private float[] commandVelocity = new float[] {
 		1600, 1600, 1400, 1400, 1000, 1000, 800, 800, 800, 800
-	};
-	
+	};	
 	private float commandMinimumVelocity = 300;
-
 	private float[] commandLatencyFactor = new float[] {
 		0.5f, 1.0f, 1.5f, 2.0f, 2.5f, 3.0f, 3.5f, 4.0f, 4.5f, 5.0f
 	};
@@ -46,9 +47,11 @@ public class GameplayScene : Node
 	private int[] remainingNMileLevels = new int[] {
 		1500*60, 1000*60, 750*60, 500*60
 	};
-	
 	private float[] reefSpawnWaitTimeLevels = new float[] {
 		3.5f, 3.3f, 3, 2.5f, 2
+	};
+	private int[] weatherDifficultyFactorAdded = new int[] {
+		0, 2, 5, 6, 7
 	};
 	
 	Autoload globals;
@@ -64,6 +67,7 @@ public class GameplayScene : Node
 		remainingNMileLabel = GetNode("CommandPanel/RemainingNMileLabel") as Label;
 		messageLabel = GetNode("MessageLabel") as Label;
 		messageTimer = GetNode("MessageTimer") as Godot.Timer;
+		weaterStatusLabel = GetNode("CommandPanel/WeaterStatusLabel") as Label;
 		
 		this.globals = (Autoload)GetNode("/root/Autoload");
 
@@ -74,8 +78,10 @@ public class GameplayScene : Node
 		distanceFromGoal *= 60; //multiply with 60 because frame-per-sec principle
 		this.globals.missionComplete = false;
 		difficult = 0;
+		weatherFactor = 0;
 		messageLabel.Hide();
 		messageTimer.Stop();
+		SetWeatherStatusLabel();
 		
 		commandExecutionPoint.Connect("CallRight",this, "ForceShipTurnRight");
         commandExecutionPoint.Connect("CallLeft",this, "ForceShipTurnLeft");
@@ -93,7 +99,10 @@ public class GameplayScene : Node
             currentCommandFrameCounter += 1;
 		
 		if(!this.globals.missionComplete)
+		{
 			ProcessDistanceFromGoal();
+			ProcessWeather();
+		}
     }
 	
 	private void ProcessDistanceFromGoal()
@@ -111,6 +120,29 @@ public class GameplayScene : Node
 				}
 		}
 		remainingNMileLabel.Text = string.Format("{0:0.00}", distanceFromGoal/1000.0);
+	}
+	
+	private void ProcessWeather()
+	{
+		if(distanceFromGoal % weatherRandomGap == 0)
+		{
+			int temp = this.globals.randomGenerator.Next() % 10 + weatherDifficultyFactorAdded[difficult];
+			if(temp >= commandVelocity.Length)
+				weatherFactor = commandVelocity.Length-1;
+			else 
+				weatherFactor = temp;
+			SetWeatherStatusLabel();
+		}
+	}
+	
+	private void SetWeatherStatusLabel()
+	{
+		if(weatherFactor >=0 && weatherFactor <=2)
+			weaterStatusLabel.Text = "Sunny";
+		else if(weatherFactor >=3 && weatherFactor <=6)
+			weaterStatusLabel.Text = "Cloudy";
+		else if(weatherFactor >=7 && weatherFactor <=9)
+			weaterStatusLabel.Text = "Thunder";
 	}
 	
 	private void InputFromPlayer()

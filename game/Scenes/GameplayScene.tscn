@@ -1,19 +1,28 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/GameplayScene.cs" type="Script" id=1]
 [ext_resource path="res://Command/RightCommandObject.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Command/LeftCommandObject.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Character/Reef/ReefObject.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Character/PlayerShip/ShipObject.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Fonts/Kenney Blocks.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Fonts/Kenney Future.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Fonts/Kenney Blocks.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=8]
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 18
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 6 )
+_sections_unfolded = [ "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=1]
 
 size = 20
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [sub_resource type="DynamicFont" id=2]
@@ -21,10 +30,10 @@ _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 size = 64
 use_mipmaps = false
 use_filter = false
-font_data = ExtResource( 6 )
+font_data = ExtResource( 7 )
 _sections_unfolded = [ "Font", "Settings" ]
 
-[node name="Gameplay" type="Node"]
+[node name="Gameplay" type="Node" index="0"]
 
 script = ExtResource( 1 )
 rightCommands = ExtResource( 2 )
@@ -98,9 +107,34 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-color = Color( 1, 0.539062, 0, 1 )
+color = Color( 0, 0, 0, 1 )
 
-[node name="RemainingNMileLabel" type="Label" parent="CommandPanel" index="2"]
+[node name="WeaterStatusLabel" type="Label" parent="CommandPanel" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 532.0
+margin_top = 372.0
+margin_right = 640.0
+margin_bottom = 420.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+text = "sunny"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_fonts" ]
+
+[node name="RemainingNMileLabel" type="Label" parent="CommandPanel" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -124,15 +158,15 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts" ]
+_sections_unfolded = [ "Material", "Visibility", "custom_colors", "custom_constants", "custom_fonts" ]
 
-[node name="CommandStartPoint" type="Position2D" parent="CommandPanel" index="3"]
+[node name="CommandStartPoint" type="Position2D" parent="CommandPanel" index="4"]
 
 position = Vector2( 48, 432 )
 scale = Vector2( 1, -1.75 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CommandExecutionPoint" parent="CommandPanel" index="4" instance=ExtResource( 7 )]
+[node name="CommandExecutionPoint" parent="CommandPanel" index="5" instance=ExtResource( 8 )]
 
 position = Vector2( 495, 432 )
 _sections_unfolded = [ "Collision", "Transform" ]
@@ -144,9 +178,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -248.0
-margin_top = -97.5
+margin_top = -98.0
 margin_right = 248.0
-margin_bottom = 97.5
+margin_bottom = 97.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
