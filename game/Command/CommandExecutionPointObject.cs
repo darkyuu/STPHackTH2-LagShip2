@@ -9,10 +9,16 @@ public class CommandExecutionPointObject : Area2D
     public delegate void CallLeft();
 	
 	Autoload globals;
+	
+	private AudioStreamPlayer hitByCommandSound;
 
     public override void _Ready()
     {
+		hitByCommandSound = GetNode("HitByCommandSound") as AudioStreamPlayer;
+		
 		this.globals = (Autoload)GetNode("/root/Autoload");
+		
+		hitByCommandSound.Stop();
 		
 		AddToGroup("commands");
 		SetProcess(true);
@@ -28,10 +34,14 @@ public class CommandExecutionPointObject : Area2D
         if(body.GetName().Find("RightCommand") != -1)
         {
             this.EmitSignal("CallRight");
+			hitByCommandSound.Play();
+			GD.Print("hitByCommandSound");
         }
         else if(body.GetName().Find("LeftCommand") != -1)
         {
             this.EmitSignal("CallLeft");
+			hitByCommandSound.Play();
+			GD.Print("hitByCommandSound");
         }
 
         this.globals.currentCommandBuffer -= 1;
