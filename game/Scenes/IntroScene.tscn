@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/IntroScene.cs" type="Script" id=1]
 [ext_resource path="res://Fonts/Kenney Future.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Fonts/Kenney Blocks.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Assets/Pacific Ocean(BGM).ogg" type="AudioStream" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -28,7 +29,7 @@ use_filter = false
 font_data = ExtResource( 3 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -108,6 +109,15 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Material", "Rect", "Visibility", "custom_fonts" ]
+
+[node name="BGM" type="AudioStreamPlayer" parent="." index="3"]
+
+stream = ExtResource( 4 )
+volume_db = -8.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
 
 [connection signal="pressed" from="StartGameButton" to="." method="OnStartGameButtonPressed"]
 
