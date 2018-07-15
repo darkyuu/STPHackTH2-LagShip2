@@ -3,6 +3,8 @@ using System;
 
 public class ShipObject : Area2D
 {   
+	[Signal]
+    public delegate void Hit();
 
 	private float turnLeftAngle = (float)Math.PI/4;
 	private float turnRightAngle = -(float)Math.PI/4;
@@ -39,4 +41,12 @@ public class ShipObject : Area2D
 		this.Position = targetPos;
 		this.currentLaneIndex = targetLaneIndex;
 	}
+	
+	public void OnPlayerShipBodyEntered(Godot.Node body)
+	{
+        this.EmitSignal("Hit");
+	}
 }
+
+
+

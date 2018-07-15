@@ -79,6 +79,7 @@ public class GameplayScene : Node
 		
 		commandExecutionPoint.Connect("CallRight",this, "ForceShipTurnRight");
         commandExecutionPoint.Connect("CallLeft",this, "ForceShipTurnLeft");
+		ship.Connect("Hit", this, "DoGameOver");
     }
 
     public override void _Process(float delta)
@@ -99,10 +100,7 @@ public class GameplayScene : Node
 	{
 		distanceFromGoal--;
 		if(distanceFromGoal == 0)
-		{
-			this.globals.missionComplete = true;
 			DoMissionComplete();
-		}
 		else
 		{
 			if(difficult < remainingNMileLevels.Length)
@@ -211,12 +209,14 @@ public class GameplayScene : Node
 	
 	public void DoMissionComplete()
     {
+		this.globals.missionComplete = true;
         ShowMessage("Mission\nComplete");
 		GoBackToMainMenuAfterMessageIsGone();
     }
 	
 	public void DoGameOver()
     {
+		this.globals.missionComplete = true;
         ShowMessage("Game Over");
 		GoBackToMainMenuAfterMessageIsGone();
     }
