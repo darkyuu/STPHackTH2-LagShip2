@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/GameplayScene.cs" type="Script" id=1]
 [ext_resource path="res://Command/RightCommandObject.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Assets/crosshair129.png" type="Texture" id=9]
 [ext_resource path="res://Command/CommandExecutionPointObject.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Assets/jingles_PIZZI03(GameOver).ogg" type="AudioStream" id=11]
+[ext_resource path="res://Assets/jingles_STEEL10(MissionComplete).ogg" type="AudioStream" id=12]
 
 [sub_resource type="DynamicFont" id=3]
 
@@ -243,6 +244,15 @@ autostart = false
 [node name="GameOverSound" type="AudioStreamPlayer" parent="." index="8"]
 
 stream = ExtResource( 11 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
+[node name="MissionCompleteSound" type="AudioStreamPlayer" parent="." index="9"]
+
+stream = ExtResource( 12 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
