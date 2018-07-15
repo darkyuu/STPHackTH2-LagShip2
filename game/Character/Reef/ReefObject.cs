@@ -37,10 +37,9 @@ public class ReefObject : RigidBody2D
 	
 	private void OnReefBodyEntered(Godot.Node body)
 	{
-		GD.Print("Reef hit");
 		if(body.IsInGroup("commands"))
         {
-			GD.Print("was hit by commands");
+
         }
 	}
 }

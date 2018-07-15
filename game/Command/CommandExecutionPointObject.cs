@@ -35,13 +35,11 @@ public class CommandExecutionPointObject : Area2D
         {
             this.EmitSignal("CallRight");
 			hitByCommandSound.Play();
-			GD.Print("hitByCommandSound");
         }
         else if(body.GetName().Find("LeftCommand") != -1)
         {
             this.EmitSignal("CallLeft");
 			hitByCommandSound.Play();
-			GD.Print("hitByCommandSound");
         }
 
         this.globals.currentCommandBuffer -= 1;
